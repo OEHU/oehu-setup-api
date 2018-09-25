@@ -3,11 +3,16 @@ const util = require('util');
 const bip39 = require('bip39');
 const BigchainDB = require('bigchaindb-driver');
 const vehUploader = require("veh-bigchaindb-uploader").default;
+const VehReadWrite = require("veh-read-and-write").default;
+
+let readWriteInstance;
+
 
 const readFile = util.promisify(fs.readFile);
 const writeFile = util.promisify(fs.writeFile);
 
 const configFile = "./config.json";
+
 
 const readConfig = async () => {
   let config;
@@ -21,10 +26,34 @@ const readConfig = async () => {
   return JSON.parse(config);
 }
 
+
 const getKeypair = async () => {
     let config = await readConfig();
     return new BigchainDB.Ed25519Keypair(bip39.mnemonicToSeed(config.phrase).slice(0,32));
 }
+
+const startReadWrite = async () => {
+  let config = await readConfig();
+
+  readWriteInstance = undefined; //delete current instance
+
+  if(config.running) { //if it should be running start it
+      if(!config.emulator) {
+        config.emulator = false;
+      }
+      console.log("starting OEHU device");
+
+      readWriteInstance = new VehReadWrite({
+        keyPair: await getKeypair(),
+        deviceID: config.deviceID,
+        emulator: config.emulator,
+        network: "http://128.199.46.166:9984/api/v1/",
+      });
+      readWriteInstance.start();
+  }
+}
+
+startReadWrite(); //start read write
 
 const updateConfigValue = async (param, value) => {
     let config = await readConfig();
@@ -52,7 +81,7 @@ exports.getKeypair = async (req, res) => {
 
 exports.newDeviceId = async (req, res) => {
     let keypair = await getKeypair();
-    let uploader = new vehUploader({keyPair: keypair});
+    let uploader = new vehUploader({keyPair: keypair, network: "http://128.199.46.166:9984/api/v1/"});
     let params = req.params;
     //let newID = await uploader.registerDevice("SMART_METER", {lat: 51.923514, long: 4.469048}, 100, "office", 5);
     let newID = await uploader.registerDevice(params.deviceType, {lat: params.lat, long: params.long}, params.locationAccuracy, params.householdType, params.occupants);
@@ -93,11 +122,13 @@ exports.isEmulating = async (req, res) => {
 
 exports.start = async (req, res) => {
     await updateConfigValue("running", true);
+    await startReadWrite();
     res.json({success: true});
 }
 
 exports.stop = async (req, res) => {
     await updateConfigValue("running", false);
+    await startReadWrite();
     res.json({success: true});
 }
 
