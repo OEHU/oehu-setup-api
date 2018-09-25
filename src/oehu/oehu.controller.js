@@ -10,7 +10,14 @@ const writeFile = util.promisify(fs.writeFile);
 const configFile = "./config.json";
 
 const readConfig = async () => {
-  let config = await readFile(configFile, "utf8");
+  let config;
+  try {
+    config = await readFile(configFile, "utf8");
+  } catch (e) {
+    //if there is no config file create one
+    await writeFile(configFile, "{}");
+    config = {};
+  }
   return JSON.parse(config);
 }
 
@@ -40,7 +47,6 @@ exports.getConfig = async (req, res) => {
 
 exports.getKeypair = async (req, res) => {
     let keypair = await getKeypair();
-    console.log(keypair);
     res.send(JSON.stringify(keypair));
 }
 
@@ -48,15 +54,67 @@ exports.newDeviceId = async (req, res) => {
     let keypair = await getKeypair();
     let uploader = new vehUploader({keyPair: keypair});
     let params = req.params;
-
-    console.log(params);
-    console.log(params.deviceType, {lat: params.lat, long: params.long}, params.locationAccuracy, params.householdType, params.occupants);
     //let newID = await uploader.registerDevice("SMART_METER", {lat: 51.923514, long: 4.469048}, 100, "office", 5);
     let newID = await uploader.registerDevice(params.deviceType, {lat: params.lat, long: params.long}, params.locationAccuracy, params.householdType, params.occupants);
     updateConfigValue("deviceID", newID);
     res.json({deviceID: newID});
 }
 
+exports.getConfigurated = async (req, res) => {
+    let config = await readConfig();
+    let configurated = false;
+
+    if(config.phrase && config.phrase.split(" ").length == 12 && config.deviceID && config.deviceID.indexOf("devices") != -1){
+        configurated = true;
+    }
+    res.json({configurated: configurated});
+}
+
+
+exports.startEmulator = async (req, res) => {
+    await updateConfigValue("emulator", true);
+    res.json({success: true});
+}
+
+exports.stopEmulator = async (req, res) => {
+    await updateConfigValue("emulator", false);
+    res.json({success: true});
+}
+
+exports.isEmulating = async (req, res) => {
+    let config = await getConfig();
+
+    if(!config.emulator) {
+        config.emulator = false;
+    }
+
+    res.json({result: config.emulator});
+}
+
+exports.start = async (req, res) => {
+    await updateConfigValue("running", true);
+    res.json({success: true});
+}
+
+exports.stop = async (req, res) => {
+    await updateConfigValue("running", false);
+    res.json({success: true});
+}
+
+exports.isRunning = async (req, res) => {
+    let config = await readConfig();
+
+    if(!config.running) {
+        config.running = false;
+    }
+    res.json({result: config.running});
+}
+
+
+/*
+  Cors middleware
+  This needs to be more strict in production
+ */
 exports.cors = async (req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
