@@ -17,3 +17,7 @@ coverage
 
 # Local conf
 conf/local.js
+
+#configfile
+
+config.json
