@@ -16,7 +16,7 @@ module.exports = [
                 oehu.cors,
                 wifi.connect,
              ],
-	}
+	},
   {
 		method: 'GET',
 		path: '/wifi/status',
