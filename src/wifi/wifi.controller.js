@@ -22,7 +22,7 @@ exports.status = async (req, res) => {
   res.json({result: status});
 }
 
-exports.status = async (req, res) => {
+exports.disconnect = async (req, res) => {
   await wifiDisconnect();
   res.json({success: true});
 }
