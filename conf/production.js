@@ -5,7 +5,7 @@ module.exports = {
 		},*/
     http: {
             port: 8000,
-            host: "oehu"
+            host: "0.0.0.0"
     }
 	}
 }
