@@ -5,6 +5,7 @@ const wifiScan = util.promisify(piWifi.scan);
 const wifiConnect = util.promisify(piWifi.connect);
 const wifiStatus = util.promisify(piWifi.status);
 const wifiDisconnect = util.promisify(piWifi.disconnect);
+const wifiKillSupplicant = util.promisify(piWifi.killSupplicant);
 
 exports.scan = async (req, res) => {
   let networks = await wifiScan();
@@ -24,5 +25,6 @@ exports.status = async (req, res) => {
 
 exports.disconnect = async (req, res) => {
   await wifiDisconnect();
+  await wifiKillSupplicant();
   res.json({success: true});
 }
