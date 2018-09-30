@@ -24,5 +24,13 @@ module.exports = [
                 oehu.cors,
                 wifi.status,
              ],
+	},
+  {
+		method: 'GET',
+		path: '/wifi/disconnect',
+		handler: [
+                oehu.cors,
+                wifi.disconnect,
+             ],
 	}
 ]
