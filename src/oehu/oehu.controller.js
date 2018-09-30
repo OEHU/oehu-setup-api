@@ -21,11 +21,10 @@ const readConfig = async () => {
   } catch (e) {
     //if there is no config file create one
     await writeFile(configFile, "{}");
-    config = {};
+    config = await readFile(configFile, "utf8");
   }
   return JSON.parse(config);
 }
-
 
 const getKeypair = async () => {
     let config = await readConfig();

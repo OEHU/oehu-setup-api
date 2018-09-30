@@ -21,3 +21,5 @@ conf/local.js
 #configfile
 
 config.json
+
+yarn-error.log
