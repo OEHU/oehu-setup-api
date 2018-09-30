@@ -3,6 +3,7 @@ const util = require('util');
 
 const wifiScan = util.promisify(piWifi.scan);
 const wifiConnect = util.promisify(piWifi.connect);
+const wifiStatus = util.promisify(piWifi.status);
 
 exports.scan = async (req, res) => {
   let networks = await wifiScan();
@@ -11,7 +12,11 @@ exports.scan = async (req, res) => {
 
 exports.connect = async (req, res) => {
   let params = req.params;
-
   await wifiConnect(params.ssid, params.password);
   res.json({success: true});
+}
+
+exports.status = async (req, res) => {
+  let status = await wifiStatus();
+  res.json({result: status});
 }

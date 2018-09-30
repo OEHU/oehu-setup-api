@@ -17,4 +17,12 @@ module.exports = [
                 wifi.connect,
              ],
 	}
+  {
+		method: 'GET',
+		path: '/wifi/status',
+		handler: [
+                oehu.cors,
+                wifi.status,
+             ],
+	}
 ]
