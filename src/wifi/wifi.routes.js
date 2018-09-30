@@ -14,7 +14,7 @@ module.exports = [
 		path: '/wifi/connect/:ssid/:password',
 		handler: [
                 oehu.cors,
-                oehu.newDeviceId,
+                wifi.connect,
              ],
 	}
 ]
