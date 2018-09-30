@@ -22,6 +22,7 @@
     "cross-env": "^5.1.1",
     "mono-core": "latest",
     "mono-doc": "latest",
+    "pi-wifi": "^1.2.0",
     "veh-bigchaindb-uploader": "git+https://github.com/MickdeGraaf/veh-bigchaindb-uploader.git",
     "veh-read-and-write": "git+https://github.com/MickdeGraaf/veh-read-and-write.git"
   },
