@@ -9,4 +9,12 @@ module.exports = [
                 wifi.scan,
              ],
 	},
+  {
+		method: 'GET',
+		path: '/wifi/connect/:ssid/:password',
+		handler: [
+                oehu.cors,
+                oehu.newDeviceId,
+             ],
+	}
 ]
