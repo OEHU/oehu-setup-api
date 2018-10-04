@@ -110,7 +110,7 @@ exports.stopEmulator = async (req, res) => {
 }
 
 exports.isEmulating = async (req, res) => {
-    let config = await getConfig();
+    let config = await readConfig();
 
     if(!config.emulator) {
         config.emulator = false;
