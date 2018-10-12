@@ -65,7 +65,7 @@ exports.generateNewPhrase = async (req, res) => {
     let currentConfig = await readConfig();
     currentConfig.phrase = phrase;
     await writeFile(configFile, JSON.stringify(currentConfig, null, 2));
-    res.json({success: true});
+    res.json({success: true, phrase: phrase});
 }
 
 exports.getConfig = async (req, res) => {
