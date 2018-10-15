@@ -15,24 +15,26 @@ Example function calls are:
 
 On 2018-10-15 the following end points were available:
 
-- /wifi/scan
-- /wifi/connect/:ssid/:password
-- /wifi/status
-- /wifi/disconnect
+    /wifi/scan
+    /wifi/connect/:ssid/:password
+    /wifi/status
+    /wifi/disconnect
+    /oehu/getconfig
+    /oehu/generateNewPhrase
+    /oehu/getKeypair
+    /oehu/getConfigurated
+    /oehu/startEmulator
+    /oehu/stopEmulator
+    /oehu/isEmulating
+    /oehu/registerDevice/:deviceType/:lat/:long/:locationAccuracy/:householdType/:occupants
+    /oehu/start
+    /oehu/stop
+    /oehu/isRunning
 
-- /oehu/getconfig
-- /oehu/generateNewPhrase
-- /oehu/getKeypair
-- /oehu/getConfigurated
-- /oehu/startEmulator
-- /oehu/stopEmulator
-- /oehu/isEmulating
-- /oehu/registerDevice/:deviceType/:lat/:long/:locationAccuracy/:householdType/:occupants
-- /oehu/start
-- /oehu/stop
-- /oehu/isRunning
+See the following files for a working/updated list of API end points:
 
-See https://github.com/OEHU/oehu-setup-api/blob/master/src/oehu/oehu.routes.js and https://github.com/OEHU/oehu-setup-api/blob/master/src/wifi/wifi.routes.js for a working/updated list of API end points.
+- https://github.com/OEHU/oehu-setup-api/blob/master/src/oehu/oehu.routes.js
+- https://github.com/OEHU/oehu-setup-api/blob/master/src/wifi/wifi.routes.js
 
 ## Installation
 
