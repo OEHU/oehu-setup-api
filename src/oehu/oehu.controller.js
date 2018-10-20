@@ -46,7 +46,7 @@ const startReadWrite = async () => {
         keyPair: await getKeypair(),
         deviceID: config.deviceID,
         emulator: config.emulator,
-        network: "http://128.199.46.166:9984/api/v1/",
+        network: "http://188.166.15.225:9984/api/v1/",
       });
       readWriteInstance.start();
   }
@@ -80,7 +80,7 @@ exports.getKeypair = async (req, res) => {
 
 exports.newDeviceId = async (req, res) => {
     let keypair = await getKeypair();
-    let uploader = new vehUploader({keyPair: keypair, network: "http://128.199.46.166:9984/api/v1/"});
+    let uploader = new vehUploader({keyPair: keypair, network: "http://188.166.15.225:9984/api/v1/"});
     let params = req.params;
     //let newID = await uploader.registerDevice("SMART_METER", {lat: 51.923514, long: 4.469048}, 100, "office", 5);
     let newID = await uploader.registerDevice(params.deviceType, {lat: params.lat, long: params.long}, params.locationAccuracy, params.householdType, params.occupants);
