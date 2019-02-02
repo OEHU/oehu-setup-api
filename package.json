@@ -1,6 +1,6 @@
 {
   "name": "oehu-setup-api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Internal API to setup OEHU",
   "private": true,
   "scripts": {
